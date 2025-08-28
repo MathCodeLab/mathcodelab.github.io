@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mohammad Orabe | Mathematik (Universitaet Niveau)</title>
+    <title>MathCodeLab | Programmieren mit Java (Merkmale)</title>
 
     <!--
     - favicon
@@ -15,16 +15,15 @@
     <!--
     - custom css link
   -->
-    <link rel="stylesheet" href="../../assets/css/style.css">
+    <link rel="stylesheet" href="../../../../assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
-
-
     <!--
     - google font link
   -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -40,7 +39,7 @@
             <div class="sidebar-info">
 
                 <figure class="avatar-box">
-                    <img src="../../assets/images/website.svg" alt="MathCodeLab" width="80">
+                    <img src="../../../../assets/images/website.svg" alt="MathCodeLab" width="80">
                 </figure>
 
                 <div class="info-content">
@@ -163,6 +162,7 @@
                     </li>
 
                 </ul>
+
             </div>
 
         </aside>
@@ -178,19 +178,19 @@
                 <ul class="navbar-list">
 
                     <li class="navbar-item">
-                        <a href="../../index.html">
+                        <a href="../../../../index.html">
                             <button class="navbar-link" data-nav-link>Über uns</button>
                         </a>
                     </li>
 
                     <li class="navbar-item">
-                        <a href="../../laufende_kurse.html">
+                        <a href="../../../../laufende_kurse.html">
                             <button class="navbar-link active" data-nav-link>Laufende Kurse</button>
                         </a>
                     </li>
 
                     <li class="navbar-item">
-                        <a href="../../vergangene_kurse.html">
+                        <a href="../../../../vergangene_kurse.html">
                             <button class="navbar-link" data-nav-link>Vergangene Kurse</button>
                         </a>
                     </li>
@@ -198,31 +198,41 @@
 
             </nav>
 
-            <!-- #KURS -->
 
-            <article class="kurs active" data-page="Kurs">
+
+            <!-- #Über uns -->
+
+            <article class="Über uns  active" data-page="Über uns">
 
                 <header>
-                    <h2 class="h2 article-title">Mathematik</h2>
+                    <h2 class="h2 article-title">Programmieren Mit<br>Java [#9]</h2>
                 </header>
 
-                <section class="projects">
+                <section class="Über uns-text">
 
-                    <!-- <ul class="filter-list">
-
-                        <li class="filter-item">
-                            <button class="active" data-filter-btn>Studium</button>
-                        </li>
+                    <ul class="filter-list">
 
                         <li class="filter-item">
-                            <a href="informatik_schule_level.html">
-                                <button data-filter-btn>Schule</button>
+                            <a href="./java_9_generell.html">
+                                <button data-filter-btn><h4>Generell</h4></button>
                             </a>
                         </li>
 
                         <li class="filter-item">
-                            <a href="informatik_alle_levels.html">
-                                <button data-filter-btn>Alle Niveaus</button>
+                            <a href="./java_9_merkmale.html">
+                                <button class="active" data-filter-btn><h4>Merkmale</h4></button>
+                            </a>
+                        </li>
+
+                        <li class="filter-item">
+                            <a href="./java_9_fazit.html">
+                                <button data-filter-btn><h4>Fazit</h4></button>
+                            </a>
+                        </li>
+
+                        <li class="filter-item">
+                            <a href="java_9_anmeldung.html">
+                                <button data-filter-btn><h4>Anmelden</h4></button>
                             </a>
                         </li>
 
@@ -255,33 +265,152 @@
                             </li>
                         </ul>
 
-                    </div> -->
+                    </div>
 
-                    <ul class="project-list">
+                    <!-- <h3 class="h3 service-title">Kursinformationen</h3> -->
 
-                        <li class="project-item  active" data-filter-item data-category="Universitaet Niveau">
-                            <a href="./uni/uni_mathe_1/uni_mathe_1_generell.html">
+                    <!-- Timeline -->
+                    <section class="timeline">
 
-                                <figure class="project-img">
-                                    <div class="project-item-icon-box">
-                                        <ion-icon name="eye-outline"></ion-icon>
-                                    </div>
+                        <div class="title-wrapper">
+                            <div class="icon-box">
+                                <ion-icon name="book-outline"></ion-icon>
+                            </div>
 
-                                    <img src="../../assets/images/uni_mathe_1.png" alt="fundo" loading="lazy">
-                                </figure>
+                            <h3 class="h3">Was diesen Kurs auszeichnet</h3>
+                        </div>
 
-                                <h3 class="project-title">Mathematik
-                                    Für Ingenieure [#1] <span style="color: var(--orange-yellow-crayola)">(In Bearbeitung  ⚠️)
-                                    </span>
-                                </h3>
+                        <ol class="timeline-list">
 
-                                <p class="project-category">2024 - 2025</p>
+                            <!-- <li class="timeline-item">
 
-                            </a>
-                        </li>
-                        
-                    </ul>
+                                <h4 class="h4 timeline-item-title">Zwei Lehrkräfte</h4>
 
+                                <p class="timeline-text">
+                                    Du wirst von mir und einer
+                                    weiteren Masterstudenten, die ebenfalls über umfangreiche Erfahrung in diesem
+                                    Bereich
+                                    verfügt, Gemeinsam betreuet und unterrichtet.
+                                </p>
+
+                            </li> -->
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Die erste Sitzung geht auf mich</h4>
+
+                                <p class="timeline-text">
+                                    Die erste Sitzung ist kostenfrei. Nachdem deiner Anmenldung, bist du herzlich
+                                    eingeladen, zur ersten
+                                    Sitzung zu kommen, um den Inhalt und Ablauf des Kurses kennen zu lernen.
+                                </p>
+
+                            </li>
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">30 Minuten für Abwesende</h4>
+
+                                <p class="timeline-text">
+                                    Zusätzlich bieten wir eine wöchentliche, kostenfreie Wiederholung in 30 Minuten vor
+                                    Kursbeginn an. Diese ist besonders
+                                    hilfreich für Teilnehmer, die vorherige Unterrichten verpasst haben und sich noch
+                                    einmal
+                                    mit dem Material vertraut machen
+                                    möchten.
+                                </p>
+
+                            </li>
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">24/7 Support</h4>
+
+                                <p class="timeline-text">
+                                    Wir sind jederzeit für dich da und beantworten deine Fragen in unserer offiziellen
+                                    Telegram Gruppe.
+
+                                </p>
+
+                            </li>
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Kurze Wiederholung</h4>
+
+                                <p class="timeline-text">
+                                    Jede Sitzung beginnt mit einer kurzen Wiederholung des vorherigen Lerninhalts.
+                                </p>
+
+                            </li>
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Quiz</h4>
+
+                                <p class="timeline-text">
+                                    Nach jeder Sitzung erhältst du ein Multiple-Choice-Quiz, das du leicht über Telegram
+                                    durchführen kannst. In der
+                                    kommenden Woche werden wir gemeinsam alle Fragen durchgehen.
+
+                                </p>
+
+                            </li>
+
+                            <!-- <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Projektportfolio</h4>
+
+                                <p class="timeline-text">
+                                    Statt Zertifikaten, die vielleicht nicht viel sagen, wirst du an einem realen
+                                    Mini-Projekt arbeiten, um das Gelernte
+                                    anzuwenden. Gemeinsam werden wir dann dein
+                                    Kursprojekt auf GitHub hochladen, was
+                                    persönlich zeigt, was du gelernt und gemacht hast, und künftige Arbeitgeber
+                                    beeindrucken
+                                    wird.
+                                </p>
+
+                            </li> -->
+
+                            <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">LinkedIn Empfehlungen</h4>
+
+                                <p class="timeline-text">
+                                    Sammle wichtige Empfehlungen von uns, deinen Lehrkräften, auf LinkedIn, um deine
+                                    beruflichen Qualifikationen und
+                                    Fähigkeiten zu betonen.
+                                </p>
+
+                            </li>
+
+                            <!-- <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Fortgeschrittenenkurse</h4>
+
+                                <p class="timeline-text">
+                                    Dieser Kurs legt das Fundament für kommende anspruchsvolle Aufgaben, die ich in den
+                                    Fortgeschrittenenkursen behandele.
+                                </p>
+
+                            </li> -->
+
+                            <!-- <li class="timeline-item">
+
+                                <h4 class="h4 timeline-item-title">Snacks für alle 🍬🍭🍦</h4>
+
+                                <p class="timeline-text">
+                                    Ich sorge für Snacks und hin und wieder gibt es sogar Eis. Alles, was du mitbringen
+                                    musst, ist deinen Laptop und ein
+                                    breites Lächeln!
+                                </p>
+
+                            </li> -->
+
+                        </ol>
+
+                    </section>
                 </section>
 
             </article>
@@ -297,7 +426,7 @@
 
 
     <!-- custom js link -->
-    <script src="../../assets/js/script.js"></script>
+    <script src="../../../../assets/js/script.js"></script>
 
     <!-- ionicon link -->
     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

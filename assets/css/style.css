@@ -545,21 +545,21 @@ main {
 
 
 /*-----------------------------------*\
-    #Profil
+    #Über uns
   \*-----------------------------------*/
 
-.profil .article-title {
+.Über uns .article-title {
   margin-bottom: 15px;
 }
 
-.profil-text {
+.Über uns-text {
   color: var(--light-gray);
   font-size: var(--fs-6);
   font-weight: var(--fw-300);
   line-height: 1.6;
 }
 
-.profil-text p {
+.Über uns-text p {
   margin-bottom: 15px;
 }
 
@@ -630,13 +630,13 @@ main {
   border-radius: 14px;
 }
 
-.profile {
+.Über unse {
   margin-bottom: 10px;
   border-radius: 20px;
   background: var(--bg-gradient-onyx)
 }
 
-.profile img {
+.Über unse img {
   border-radius: 20px;
   margin: auto;
   background: var(--bg-gradient-onyx)
@@ -1683,14 +1683,14 @@ textarea.form-input::-webkit-resizer {
 
 
   /**
-     * #Profil
+     * #Über uns
      */
 
-  .profil .article-title {
+  .Über uns .article-title {
     margin-bottom: 20px;
   }
 
-  .profil-text {
+  .Über uns-text {
     margin-bottom: 40px;
   }
 
@@ -1728,7 +1728,7 @@ textarea.form-input::-webkit-resizer {
     margin-top: 5px;
   }
 
-  .profile {
+  .Über unse {
     margin-bottom: 0;
     margin-top: 5px;
     border-radius: 20px;
@@ -1960,7 +1960,7 @@ textarea.form-input::-webkit-resizer {
 
 
   /**
-     * Profil
+     * Über uns
      */
 
   /* testimonials modal */
@@ -2119,7 +2119,7 @@ textarea.form-input::-webkit-resizer {
 
 
   /**
-     * Profil
+     * Über uns
      */
 
   /* service */
