@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Certificate Verification | MathCodeLab</title>
+  <link rel="stylesheet" href="verify.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Certificate Verification</h1>
+      <p>Verify a MathCodeLab Certificate of Completion or Participation</p>
+    </header>
+    <main id="main-content">
+      <div id="loading" class="hidden">Loading...</div>
+      <form id="search-form" class="hidden">
+        <label for="certificate-id">Enter Certificate ID:</label>
+        <input type="text" id="certificate-id" name="certificate-id" maxlength="20" required pattern="MCL-\d{4}-[A-Z0-9]{6,8}">
+        <button type="submit">Verify</button>
+      </form>
+      <div id="result"></div>
+    </main>
+    <footer>
+      <p>&copy; <span id="year"></span> MathCodeLab</p>
+    </footer>
+  </div>
+  <script src="verify.js"></script>
+</body>
+</html>
