@@ -11,8 +11,10 @@ A professional, scalable certificate verification system for MathCodeLab, using 
 ```
 verify/
   index.html
-  verify.css
   verify.js
+assets/
+  css/
+    style.css
 backend/
   app/
     main.py
@@ -56,13 +58,13 @@ backend/
 - `GET /health` — API health check
 - `GET /verify/{certificate_id}` — Verify a certificate
 - `POST /admin/certificates` — Create a certificate (admin, API key required)
-- `PATCH /admin/certificates/{certificate_id}/revoke` — Revoke a certificate (admin, API key required)
+- `DELETE /admin/certificates/{certificate_id}` — Delete a certificate (admin, API key required)
 
 ## Issuing a Certificate
 - Use the admin API or run `python scripts/create_certificate.py` interactively.
 
-## Revoking a Certificate
-- Use the PATCH admin endpoint with a revocation reason.
+## Revocation
+Revocation support has been removed from this codebase. Certificates cannot be revoked via the API.
 
 ## Frontend Integration
 - The verification page (`verify/index.html`) calls the backend API at `https://api.mathcodelab.de/verify/{certificate_id}`.
