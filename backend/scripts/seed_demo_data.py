@@ -15,16 +15,15 @@ def seed():
         duration_hours=20
     )
     c1 = crud.create_certificate(db, cert1)
-    # Revoke a certificate
+    # Another demo certificate
     cert2 = schemas.CertificateCreate(
-        student_name="Bob Revoked",
+        student_name="Bob Example",
         course_title="Data Science Intro",
         completion_date="2026-03-15",
         duration_hours=15
     )
     c2 = crud.create_certificate(db, cert2)
-    crud.revoke_certificate(db, c2.certificate_id, reason="Academic misconduct")
-    print(f"Seeded: {c1.certificate_id} (valid), {c2.certificate_id} (revoked)")
+    print(f"Seeded: {c1.certificate_id}, {c2.certificate_id}")
 
 if __name__ == "__main__":
     seed()

@@ -391,10 +391,7 @@ article.active {
   border-color: rgba(39, 104, 237, 0.18);
 }
 
-.verify-result-revoked {
-  background: linear-gradient(180deg, rgba(102, 63, 3, 0.12), rgba(255, 255, 255, 0.18));
-  border-color: rgba(102, 63, 3, 0.16);
-}
+/* Revoked state removed from UI */
 
 .verify-result-invalid {
   background: linear-gradient(180deg, rgba(184, 12, 0, 0.12), rgba(255, 255, 255, 0.18));
@@ -501,8 +498,7 @@ article.active {
   margin-top: 2px;
 }
 
-.verify-status.verified,
-.verify-status.revoked {
+.verify-status.verified {
   animation: verify-pop 320ms ease-out both, verify-glow 900ms ease-out 1;
 }
 
@@ -578,11 +574,7 @@ article.active {
   border: 1px solid rgba(16,81,50,0.12);
 }
 
-.verify-status.revoked {
-  color: #663f03;
-  background: rgba(102,63,3,0.06);
-  border: 1px solid rgba(102,63,3,0.12);
-}
+/* Revoked status styling removed */
 
 .verify-status.invalid {
   color: #842029;

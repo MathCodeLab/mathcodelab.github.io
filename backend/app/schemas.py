@@ -19,8 +19,6 @@ class CertificateCreate(CertificateBase):
 
 class CertificateOut(CertificateBase):
     certificate_id: str
-    status: str
-    revocation_reason: Optional[str] = None
     class Config:
         from_attributes = True
 
@@ -35,7 +33,6 @@ class CertificateVerificationResponse(BaseModel):
     issuer: Optional[str] = None
     instructor: Optional[str] = None
     verified_at: Optional[str] = None
-    revocation_reason: Optional[str] = None
     message: Optional[str] = None
     attendance_percentage: Optional[int] = None
     assignment_completion_percentage: Optional[int] = None
@@ -43,5 +40,4 @@ class CertificateVerificationResponse(BaseModel):
     course_format: Optional[str] = None
     instruction_language: Optional[str] = None
     
-class CertificateRevoke(BaseModel):
-    revocation_reason: Optional[str] = None
+# Revocation support removed: no revoke schema

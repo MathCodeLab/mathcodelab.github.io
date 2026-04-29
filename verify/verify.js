@@ -90,65 +90,56 @@
   }
 
   function renderCertificate(data) {
-    function renderContact() {
-      return `
-        <div class="verify-result-footer">
-          <p class="verify-contact">Bei Fragen kontaktieren Sie uns: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></p>
-        </div>
-      `;
+    function renderContactLine() {
+      return `<p class="verify-contact">Bei Rückfragen kann folgende Adresse kontaktiert werden: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></p>`;
     }
 
-    function renderHeader(badge, title, description, tone) {
-      return `
-        <div class="verify-result-header ${tone}">
-          <span class="verify-result-badge">${escapeHtml(badge)}</span>
-          <h3 class="verify-result-title">${escapeHtml(title)}</h3>
-          <p class="verify-result-description">${escapeHtml(description)}</p>
-        </div>
-      `;
+    function formatDateTime(iso) {
+      try {
+        const d = new Date(iso);
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const yyyy = d.getUTCFullYear();
+        const hh = String(d.getUTCHours()).padStart(2, '0');
+        const min = String(d.getUTCMinutes()).padStart(2, '0');
+        return `${dd}.${mm}.${yyyy}, ${hh}:${min} UTC`;
+      } catch (e) {
+        return iso;
+      }
     }
 
     if (data.status === 'valid') {
+      const verifiedAt = data.verified_at ? formatDateTime(data.verified_at) : '';
       return `
         <div class="verify-result-card verify-result-success">
-          ${renderHeader('Verifiziert', 'Zertifikat gültig', 'Dieses Zertifikat wurde erfolgreich bestätigt.', 'success')}
-          <div class="verify-details-grid">
-            ${renderMeta('Teilnehmer', data.student_name)}
-            ${renderMeta('Kurs', data.course_title)}
-            ${renderMeta('Abschlussdatum', data.completion_date)}
-            ${renderMeta('Dauer', `${data.duration_hours} Stunden`)}
-            ${data.attendance_percentage != null ? renderMeta('Anwesenheit', `${data.attendance_percentage}%`) : ''}
-            ${data.assignment_completion_percentage != null ? renderMeta('Aufgaben', `${data.assignment_completion_percentage}%`) : ''}
-            ${data.course_level ? renderMeta('Niveau', data.course_level) : ''}
-            ${data.course_format ? renderMeta('Format', data.course_format) : ''}
-            ${data.instruction_language ? renderMeta('Sprache', data.instruction_language) : ''}
-            ${renderMeta('Herausgeber', data.issuer)}
-            ${renderMeta('Dozent', data.instructor)}
-            ${renderMeta('Zertifikat‑ID', data.certificate_id)}
-            ${data.verified_at ? renderMeta('Bestätigt am', data.verified_at) : ''}
+          <div class="verify-result-header success">
+            <span class="verify-result-badge">Verifiziert</span>
+            <h3 class="verify-result-title">Verifiziertes Zertifikat</h3>
+            <p class="verify-result-description">Dieses Zertifikat wurde erfolgreich geprüft und als gültig bestätigt.</p>
           </div>
-          <div class="verify-note">Dieses Zertifikat wurde von MathCodeLab ausgestellt. Weitere Informationen unter <a href="https://mathcodelab.de" target="_blank" rel="noreferrer">mathcodelab.de</a>.</div>
-          ${renderContact()}
-        </div>
-      `;
-    } else if (data.status === 'revoked') {
-      return `
-        <div class="verify-result-card verify-result-revoked">
-          ${renderHeader('Widerrufen', 'Zertifikat widerrufen', 'Dieses Zertifikat ist nicht mehr gültig.', 'warning')}
           <div class="verify-details-grid">
-            ${renderMeta('Zertifikat‑ID', data.certificate_id)}
-            ${data.revocation_reason ? renderMeta('Widerrufsgrund', data.revocation_reason) : ''}
+            ${renderMeta('Teilnehmer', data.student_name || '-')}
+            ${renderMeta('Kurs', data.course_title || '-')}
+            ${renderMeta('Abschlussdatum', data.completion_date || '-')}
+            ${renderMeta('Dauer', (data.duration_hours != null) ? `${data.duration_hours} Unterrichtsstunden` : '-')}
+            ${renderMeta('Herausgeber', data.issuer || 'MathCodeLab')}
+            ${renderMeta('Dozent', data.instructor || 'Mohammad Orabe')}
+            ${renderMeta('Zertifikat-ID', data.certificate_id)}
+            ${verifiedAt ? renderMeta('Verifiziert am', verifiedAt) : ''}
           </div>
-          <div class="verify-note">Dieses Zertifikat wurde von MathCodeLab widerrufen.</div>
-          ${renderContact()}
+          <div class="verify-note">Hinweis:\nDieses Zertifikat bestätigt die erfolgreiche Teilnahme bzw. den Abschluss eines von MathCodeLab durchgeführten Kurses. Es stellt keinen akademischen Abschluss dar und beinhaltet keine Vergabe von Leistungspunkten (ECTS). Eine mögliche Anerkennung durch Dritten erfolgt ausschließlich im Ermessen der jeweiligen Institution.<br>Weitere Informationen sind unter <a href="https://mathcodelab.de" target="_blank" rel="noreferrer">https://mathcodelab.de</a> verfügbar.</div>
+          <div class="verify-result-footer">${renderContactLine()}</div>
         </div>
       `;
     } else {
       return `
         <div class="verify-result-card verify-result-invalid">
-          ${renderHeader('Nicht gefunden', 'Zertifikat nicht gefunden', 'Es wurde kein Zertifikat mit dieser ID im MathCodeLab-Verifizierungssystem gefunden.', 'danger')}
-          <div class="verify-suggestion">Vorschläge: Überprüfen Sie das ID‑Format, entfernen Sie Leerzeichen oder versuchen Sie folgendes Beispiel: <strong>MCL-2026-GLMMEO7</strong>.</div>
-          ${renderContact()}
+          <div class="verify-result-header danger">
+            <span class="verify-result-badge">Nicht gefunden</span>
+            <h3 class="verify-result-title">Zertifikat nicht gefunden</h3>
+            <p class="verify-result-description">Zu der angegebenen Zertifikat-ID konnte kein Eintrag in der MathCodeLab-Zertifikatsdatenbank gefunden werden. Es wird gebeten, die eingegebene ID zu überprüfen und erneut einzugeben.</p>
+          </div>
+          <div class="verify-result-footer">${renderContactLine()}</div>
         </div>
       `;
     }
@@ -176,15 +167,29 @@
     showLoading(true);
     try {
       const resp = await fetch(`${API_BASE}/verify/${encodeURIComponent(id)}`);
-      if (!resp.ok) throw new Error('not found');
+      if (resp.status === 404) {
+        showResult(renderCertificate({status: 'invalid', certificate_id: id}));
+        return;
+      }
+      if (!resp.ok) {
+        throw new Error('server');
+      }
       const data = await resp.json();
+      // ensure status field
+      data.status = data.status || 'valid';
       showResult(renderCertificate(data));
     } catch (err) {
-      if (err.message === 'not found') {
-        showResult(renderCertificate({status: 'invalid', certificate_id: id}));
-      } else {
-        showResult('<div class="verify-result-card verify-result-invalid"><div class="verify-result-header danger"><span class="verify-result-badge">Fehler</span><h3 class="verify-result-title">Verifizierungsdienst nicht erreichbar</h3><p class="verify-result-description">Der Verifizierungsdienst ist derzeit nicht erreichbar.</p></div><div class="verify-note verify-note-warn">Bitte versuchen Sie es später erneut.</div><div class="verify-result-footer"><p class="verify-contact">Kontakt: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></p></div></div>');
-      }
+      // server / network errors -> show server error card
+      showResult(`
+        <div class="verify-result-card verify-result-invalid">
+          <div class="verify-result-header danger">
+            <span class="verify-result-badge">Fehler</span>
+            <h3 class="verify-result-title">Fehler bei der Verifizierung</h3>
+            <p class="verify-result-description">Der Verifizierungsdienst ist derzeit vorübergehend nicht erreichbar. Es wird gebeten, die Anfrage zu einem späteren Zeitpunkt erneut durchzuführen. Sollte das Problem weiterhin bestehen, kann der Support kontaktiert werden.</p>
+          </div>
+          <div class="verify-result-footer"><p class="verify-contact">Kontakt: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></p></div>
+        </div>
+      `);
     } finally {
       setFormBusy(false);
     }
@@ -200,7 +205,17 @@
     const id = document.getElementById('certificate-id').value.trim();
     if (!id) return;
     if (!CERT_PATTERN.test(id)) {
-      showResult(`<div class="verify-status invalid">Ungültiges Format</div><div class="verify-note verify-note-warn">Bitte verwenden Sie das Format <strong>MCL-JJJJ-XXXXXXX</strong>. Beispiel: <strong>MCL-2026-GLMMEO7</strong>.</div><div class="verify-contact">kontaktieren Sie uns: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></div>`);
+      showResult(`
+        <div class="verify-result-card verify-result-invalid">
+          <div class="verify-result-header danger">
+            <span class="verify-result-badge">Ungültige Eingabe</span>
+            <h3 class="verify-result-title">Ungültige Eingabe</h3>
+            <p class="verify-result-description">Die eingegebene Zertifikat-ID entspricht nicht dem erwarteten Format. Es wird gebeten, folgendes Format zu verwenden: <strong>MCL-JJJJ-XXXXXXX</strong></p>
+          </div>
+          <div class="verify-suggestion">Beispiel: <strong>MCL-2026-GLMMEO7</strong></div>
+          <div class="verify-result-footer"><p class="verify-contact">Bei Rückfragen kann folgende Adresse kontaktiert werden: <a href="mailto:info@mathcodelab.de">info@mathcodelab.de</a></p></div>
+        </div>
+      `);
       return;
     }
     verifyCertificate(id);

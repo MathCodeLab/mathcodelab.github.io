@@ -1,11 +1,6 @@
-from sqlalchemy import Column, Integer, String, DateTime, Enum
+from sqlalchemy import Column, Integer, String, DateTime
 from sqlalchemy.sql import func
 from .database import Base
-import enum
-
-class CertificateStatus(str, enum.Enum):
-    valid = "valid"
-    revoked = "revoked"
 
 class Certificate(Base):
     __tablename__ = "certificates"
@@ -23,7 +18,6 @@ class Certificate(Base):
     
     issuer = Column(String, default="MathCodeLab", nullable=False)
     instructor = Column(String, default="Mohammad Orabe", nullable=False)
-    status = Column(Enum(CertificateStatus), default=CertificateStatus.valid, nullable=False)
-    revocation_reason = Column(String, nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
+    

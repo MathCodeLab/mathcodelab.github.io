@@ -64,12 +64,7 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
             "certificate_id": certificate_id,
             "message": "Certificate not found"
         })
-    if cert.status == "revoked":
-        return {
-            "status": "revoked",
-            "certificate_id": cert.certificate_id,
-            "revocation_reason": cert.revocation_reason or ""
-        }
+
     return {
         "status": "valid",
         "certificate_id": cert.certificate_id,
@@ -91,17 +86,7 @@ def create_certificate(
 ):
     return crud.create_certificate(db, cert_in)
 
-@app.patch("/admin/certificates/{certificate_id}/revoke", response_model=schemas.CertificateOut)
-def revoke_certificate(
-    certificate_id: str,
-    body: schemas.CertificateRevoke,
-    db: Session = Depends(get_db),
-    api_key: str = Depends(security.verify_api_key)
-):
-    cert = crud.revoke_certificate(db, certificate_id, body.revocation_reason)
-    if not cert:
-        raise HTTPException(status_code=404, detail="Certificate not found")
-    return cert
+# Revocation endpoint removed
 
 @app.get("/admin/certificates")
 def list_certificates(

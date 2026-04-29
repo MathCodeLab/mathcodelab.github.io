@@ -31,7 +31,6 @@ def create_certificate(db: Session, cert_in: schemas.CertificateCreate):
         instruction_language=cert_in.instruction_language,
         issuer=cert_in.issuer or "MathCodeLab",
         instructor=cert_in.instructor or "Mohammad Orabe",
-        status=models.CertificateStatus.valid,
     )
 
     db.add(cert)
@@ -43,9 +42,5 @@ def revoke_certificate(db: Session, certificate_id: str, reason: str = None):
     cert = get_certificate_by_public_id(db, certificate_id)
     if not cert:
         return None
-    cert.status = models.CertificateStatus.revoked
-    cert.revocation_reason = reason
-    cert.updated_at = datetime.utcnow()
-    db.commit()
-    db.refresh(cert)
-    return cert
+    # Revocation removed: function retained only for compatibility but does nothing
+    return None
