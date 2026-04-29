@@ -29,6 +29,7 @@ def create_certificate(db: Session, cert_in: schemas.CertificateCreate):
         course_level=cert_in.course_level,
         course_format=cert_in.course_format,
         instruction_language=cert_in.instruction_language,
+        course_link=cert_in.course_link,
         issuer=cert_in.issuer or "MathCodeLab",
         instructor=cert_in.instructor or "Mohammad Orabe",
     )
@@ -44,3 +45,13 @@ def revoke_certificate(db: Session, certificate_id: str, reason: str = None):
         return None
     # Revocation removed: function retained only for compatibility but does nothing
     return None
+
+
+def delete_certificate(db: Session, certificate_id: str):
+    cert = get_certificate_by_public_id(db, certificate_id)
+    if not cert:
+        return None
+
+    db.delete(cert)
+    db.commit()
+    return cert

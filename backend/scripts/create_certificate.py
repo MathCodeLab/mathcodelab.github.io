@@ -48,6 +48,7 @@ def main():
     course_level = input("Course level (e.g. Master-level, Bachelor-level, High School-level): ")
     course_format = input("Course format (e.g. Online (via Zoom), In-person, Hybrid): ")
     instruction_language = input("Instruction language (e.g. English, German, Arabic): ") 
+    course_link = input("Course link (optional, e.g. https://...): ").strip() or None
     cert_in = schemas.CertificateCreate(
         student_name=student_name,
         course_title=course_title,
@@ -58,6 +59,8 @@ def main():
         course_level=course_level,
         course_format=course_format,
         instruction_language=instruction_language
+        ,
+        course_link=course_link
     )
     cert = crud.create_certificate(db, cert_in)
     print(f"Created certificate: {cert.certificate_id}")

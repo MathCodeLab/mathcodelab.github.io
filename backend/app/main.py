@@ -70,6 +70,7 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
         "certificate_id": cert.certificate_id,
         "student_name": cert.student_name,
         "course_title": cert.course_title,
+        "course_link": cert.course_link,
         "completion_date": cert.completion_date,
         "duration_hours": cert.duration_hours,
         "issuer": cert.issuer,
@@ -95,3 +96,19 @@ def list_certificates(
 ):
     certs = db.query(models.Certificate).all()
     return certs
+
+
+@app.delete("/admin/certificates/{certificate_id}", response_model=schemas.CertificateDeleteResponse)
+def delete_certificate(
+    certificate_id: str,
+    db: Session = Depends(get_db),
+    api_key: str = Depends(security.verify_api_key)
+):
+    cert = crud.delete_certificate(db, certificate_id)
+    if not cert:
+        raise HTTPException(status_code=404, detail="Certificate not found")
+
+    return {
+        "message": "Certificate deleted",
+        "certificate_id": certificate_id,
+    }

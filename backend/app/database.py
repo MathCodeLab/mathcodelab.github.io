@@ -53,6 +53,8 @@ def ensure_certificate_schema(bind=None):
         missing_statements.append("ALTER TABLE certificates ADD COLUMN course_format VARCHAR")
     if "instruction_language" not in existing_columns:
         missing_statements.append("ALTER TABLE certificates ADD COLUMN instruction_language VARCHAR")
+    if "course_link" not in existing_columns:
+        missing_statements.append("ALTER TABLE certificates ADD COLUMN course_link VARCHAR")
 
     if not missing_statements:
         return

@@ -15,6 +15,7 @@ class Certificate(Base):
     course_level = Column(String, nullable=True)
     course_format = Column(String, nullable=True)
     instruction_language = Column(String, nullable=True)
+    course_link = Column(String, nullable=True)
     
     issuer = Column(String, default="MathCodeLab", nullable=False)
     instructor = Column(String, default="Mohammad Orabe", nullable=False)

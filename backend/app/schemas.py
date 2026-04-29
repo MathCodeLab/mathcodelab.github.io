@@ -11,6 +11,7 @@ class CertificateBase(BaseModel):
     course_level: Optional[str] = None
     course_format: Optional[str] = None
     instruction_language: Optional[str] = None
+    course_link: Optional[str] = None
     issuer: Optional[str] = "MathCodeLab"
     instructor: Optional[str] = "Mohammad Orabe"
 
@@ -21,6 +22,7 @@ class CertificateOut(CertificateBase):
     certificate_id: str
     class Config:
         from_attributes = True
+    course_link: Optional[str] = None
 
 class CertificateVerificationResponse(BaseModel):
     status: str
@@ -28,6 +30,7 @@ class CertificateVerificationResponse(BaseModel):
     verification_url: Optional[str] = None
     student_name: Optional[str] = None
     course_title: Optional[str] = None
+    course_link: Optional[str] = None
     completion_date: Optional[str] = None
     duration_hours: Optional[int] = None
     issuer: Optional[str] = None
@@ -39,5 +42,10 @@ class CertificateVerificationResponse(BaseModel):
     course_level: Optional[str] = None
     course_format: Optional[str] = None
     instruction_language: Optional[str] = None
+
+
+class CertificateDeleteResponse(BaseModel):
+    message: str
+    certificate_id: str
     
 # Revocation support removed: no revoke schema
