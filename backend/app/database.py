@@ -71,6 +71,10 @@ def ensure_certificate_schema(bind=None):
         missing_statements.append("ALTER TABLE certificates ADD COLUMN instruction_language VARCHAR")
     if "course_link" not in existing_columns:
         missing_statements.append("ALTER TABLE certificates ADD COLUMN course_link VARCHAR")
+    if "status" not in existing_columns:
+        # create status column with a sensible default so existing DBs don't fail on inserts
+        # Use DEFAULT and NOT NULL in a single statement when supported by the DB.
+        missing_statements.append("ALTER TABLE certificates ADD COLUMN status VARCHAR DEFAULT 'valid' NOT NULL")
 
     if not missing_statements:
         return

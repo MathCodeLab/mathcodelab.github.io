@@ -55,6 +55,12 @@ class CertificateVerificationResponse(BaseModel):
     course_level: Optional[str] = None
     course_format: Optional[str] = None
     instruction_language: Optional[str] = None
+    # Certificate timestamps
+    certificate_created_at: Optional[str] = None
+    certificate_updated_at: Optional[str] = None
+    # Student timestamps
+    student_created_at: Optional[str] = None
+    student_updated_at: Optional[str] = None
 
 
 class CertificateDeleteResponse(BaseModel):

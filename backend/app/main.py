@@ -65,6 +65,8 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
             "message": "Certificate not found"
         })
 
+    student = getattr(cert, "student", None)
+
     return {
         "status": "valid",
         "certificate_id": cert.certificate_id,
@@ -76,6 +78,15 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
         "duration_hours": cert.duration_hours,
         "issuer": cert.issuer,
         "instructor": cert.instructor,
+        "attendance_percentage": cert.attendance_percentage,
+        "assignment_completion_percentage": cert.assignment_completion_percentage,
+        "course_level": cert.course_level,
+        "course_format": cert.course_format,
+        "instruction_language": cert.instruction_language,
+        "certificate_created_at": cert.created_at,
+        "certificate_updated_at": cert.updated_at,
+        "student_created_at": getattr(student, "created_at", None) if student else None,
+        "student_updated_at": getattr(student, "updated_at", None) if student else None,
         "verified_at": datetime.utcnow().isoformat() + "Z",
         "verification_url": f"https://mathcodelab.de/verify/?id={cert.certificate_id}"
     }

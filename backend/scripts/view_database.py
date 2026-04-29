@@ -1,16 +1,48 @@
 import os
 import sys
+from datetime import datetime, timezone
 
-from dotenv import load_dotenv
+try:
+	from dotenv import load_dotenv
+except ModuleNotFoundError:
+	load_dotenv = None
+
 from sqlalchemy.orm import Session
 
 PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
-load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+if load_dotenv:
+	load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+else:
+	# fallback: load simple KEY=VALUE pairs into env if .env exists
+	env_path = os.path.join(PROJECT_ROOT, ".env")
+	if os.path.exists(env_path):
+		with open(env_path, "r", encoding="utf-8") as f:
+			for raw in f:
+				line = raw.strip()
+				if not line or line.startswith("#") or "=" not in line:
+					continue
+				k, v = line.split("=", 1)
+				os.environ.setdefault(k.strip(), v.strip().strip('"').strip("'"))
+
 sys.path.append(PROJECT_ROOT)
 
 from app import database
 from app.database import SessionLocal
 from app.models import Certificate
+
+
+def _format_dt(dt: datetime) -> str:
+	if not dt:
+		return "-"
+	# ensure timezone-aware
+	if dt.tzinfo is None:
+		dt = dt.replace(tzinfo=timezone.utc)
+	# convert to local timezone for display
+	try:
+		local = dt.astimezone()
+	except Exception:
+		local = dt
+	return local.strftime("%d.%m.%Y, %H:%M %Z")
 
 
 def view_database(limit: int = 50):
@@ -43,7 +75,7 @@ def view_database(limit: int = 50):
 			print(f"Instructor     : {cert.instructor}")
 			print(f"Course Link    : {cert.course_link or '-'}")
 			print(f"Status         : {getattr(cert, 'status', 'valid')}")
-			print(f"Created At     : {cert.created_at}")
+			print(f"Created At     : {_format_dt(cert.created_at)}")
 			print("=" * 50)
 
 	except Exception as e:
