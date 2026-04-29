@@ -60,7 +60,8 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
         "duration_hours": cert.duration_hours,
         "issuer": cert.issuer,
         "instructor": cert.instructor,
-        "verified_at": datetime.utcnow().isoformat() + "Z"
+        "verified_at": datetime.utcnow().isoformat() + "Z",
+        "verification_url": f"https://mathcodelab.de/verify/?id={cert.certificate_id}"
     }
 
 @app.post("/admin/certificates", response_model=schemas.CertificateOut)

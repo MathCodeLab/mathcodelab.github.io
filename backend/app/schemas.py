@@ -22,6 +22,7 @@ class CertificateOut(CertificateBase):
 class CertificateVerificationResponse(BaseModel):
     status: str
     certificate_id: str
+    verification_url: Optional[str] = None
     student_name: Optional[str] = None
     course_title: Optional[str] = None
     completion_date: Optional[str] = None

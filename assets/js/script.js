@@ -3,6 +3,32 @@
 
 
 // element toggle function
+
+// Ensure a public "Zertifikat prüfen" link appears in the navbar on all pages
+;(function addVerifyNavItem(){
+  const navLists = document.querySelectorAll('.navbar-list');
+  if(!navLists) return;
+
+  navLists.forEach(list => {
+    // Avoid adding duplicate links
+    if (list.querySelector('a[href="verify/index.html"], a[href="/verify/index.html"]')) return;
+
+    const li = document.createElement('li');
+    li.className = 'navbar-item';
+
+    const a = document.createElement('a');
+    a.href = 'verify/index.html';
+
+    const btn = document.createElement('button');
+    btn.className = 'navbar-link';
+    btn.setAttribute('data-nav-link', '');
+    btn.textContent = 'Zertifikat prüfen';
+
+    a.appendChild(btn);
+    li.appendChild(a);
+    list.appendChild(li);
+  });
+})();
 const elementToggleFunc = function (elem) { elem.classList.toggle("active"); }
 
 
