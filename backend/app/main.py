@@ -5,8 +5,17 @@ from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 from datetime import datetime
 from . import models, schemas, crud, database, security
+import os
 
-app = FastAPI(title="MathCodeLab Certificate Verification API")
+ENABLE_DOCS = os.getenv("ENABLE_DOCS", "false").lower() == "true"
+
+app = FastAPI(
+    title="MathCodeLab Certificate Verification API",
+    docs_url="/docs" if ENABLE_DOCS else None,
+    redoc_url="/redoc" if ENABLE_DOCS else None,
+    openapi_url="/openapi.json" if ENABLE_DOCS else None,
+)
+
 models.Base.metadata.create_all(bind=database.engine)
 
 # CORS
