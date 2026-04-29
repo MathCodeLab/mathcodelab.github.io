@@ -65,13 +65,50 @@ backend/
 ## Issuing a Certificate
 - Use the admin API or run `python scripts/create_certificate.py` interactively.
 - The script now asks for a `student_id` primary key and the student name.
+- After creation, it also generates a QR image in `backend/assets/qrcodes/` using the public verification URL.
 
 ## Removing a Certificate
-- Run `python scripts/remove_certificate.py S12345`
+- Preview deletion by student ID:
+  ```bash
+  ./venv/bin/python scripts/remove_certificate.py --student S12345
+  ```
+- Preview deletion by certificate ID:
+  ```bash
+  ./venv/bin/python scripts/remove_certificate.py --certificate MCL-2026-XXXXXXX
+  ```
+- Execute deletion with confirmation:
+  ```bash
+  ./venv/bin/python scripts/remove_certificate.py --student S12345 --yes
+  ./venv/bin/python scripts/remove_certificate.py --certificate MCL-2026-XXXXXXX --yes
+  ```
+- The script removes certificates only. It does not delete the student row.
+
+## Cleaning Broken Student IDs
+- Use this when rows contain `NULL`, empty, or literal `None` in `student_id`.
+- Dry-run:
+  ```bash
+  ./venv/bin/python scripts/clean_none_students.py
+  ```
+- Execute cleanup:
+  ```bash
+  ./venv/bin/python scripts/clean_none_students.py --yes
+  ```
+- This script deletes matching certificates and matching student rows.
 
 ## Looking Up a Student
-- Run `python scripts/view_student.py S12345`
+- Run `python scripts/view_student.py --student S12345`
 - Or call the admin API: `GET /admin/students/{student_id}`
+
+## Viewing Database Data
+- Show the latest certificates:
+  ```bash
+  ./venv/bin/python scripts/view_database.py
+  ```
+- Show a specific student and all of their certificates:
+  ```bash
+  ./venv/bin/python scripts/view_student.py --student S12345
+  ```
+- Both viewers print dates without time, using `YYYY.MM.DD`.
 
 ## Revocation
 Revocation support has been removed from this codebase. Certificates cannot be revoked via the API.
@@ -101,6 +138,11 @@ Revocation support has been removed from this codebase. Certificates cannot be r
   - Verification URL: `https://mathcodelab.de/verify/?id={certificate_id}`
   - (Optional) QR code to the same URL
 - The verification page confirms MathCodeLab as the issuer, not external accreditation.
+
+## QR Images
+- QR images are generated server-side as transparent PNG files.
+- Default output path: `backend/assets/qrcodes/{student_id}_{certificate_id}.png`
+- The QR payload is the public verification URL only.
 
 ## Wording Policy
 - Use “Certificate of Completion” or “Certificate of Participation”.

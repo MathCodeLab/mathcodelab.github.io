@@ -7,6 +7,7 @@ class CertificateBase(BaseModel):
     course_title: str
     completion_date: str
     duration_hours: int
+    created_at: Optional[str] = None
     attendance_percentage: Optional[int] = None
     assignment_completion_percentage: Optional[int] = None
     course_level: Optional[str] = None
@@ -28,8 +29,6 @@ class CertificateOut(CertificateBase):
 class StudentOut(BaseModel):
     student_id: str
     student_name: str
-    created_at: Optional[str] = None
-    updated_at: Optional[str] = None
 
 
 class StudentLookupResponse(BaseModel):
@@ -55,12 +54,8 @@ class CertificateVerificationResponse(BaseModel):
     course_level: Optional[str] = None
     course_format: Optional[str] = None
     instruction_language: Optional[str] = None
-    # Certificate timestamps
+    # Certificate creation date (date-only)
     certificate_created_at: Optional[str] = None
-    certificate_updated_at: Optional[str] = None
-    # Student timestamps
-    student_created_at: Optional[str] = None
-    student_updated_at: Optional[str] = None
 
 
 class CertificateDeleteResponse(BaseModel):

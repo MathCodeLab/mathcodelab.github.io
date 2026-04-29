@@ -1,7 +1,7 @@
 import argparse
 import os
 import sys
-from datetime import datetime
+from datetime import datetime, date
 
 from sqlalchemy.orm import Session
 
@@ -37,7 +37,9 @@ sys.path.append(PROJECT_ROOT)
 
 
 def _format_value(value):
-    if isinstance(value, datetime):
+    if value is None:
+        return value
+    if isinstance(value, (datetime, date)):
         return value.isoformat()
     return value
 
@@ -60,15 +62,40 @@ def view_student(student_id: str):
             .all()
         )
 
-        print("Student")
-        print(f"  Student ID: {_format_value(student.student_id)}")
-        print(f"  Name: {_format_value(student.student_name)}")
-        print(f"  Created At: {_format_value(student.created_at)}")
-        print(f"  Updated At: {_format_value(student.updated_at)}")
+        print("=" * 80)
+        print("STUDENT INFORMATION")
+        print("=" * 80)
+        print(f"Student ID:   {student.student_id}")
+        print(f"Student Name: {student.student_name}")
         print()
-        print(f"Certificates ({len(certificates)})")
-        for cert in certificates:
-            print(f"  - {cert.certificate_id} | {cert.course_title} | {cert.completion_date}")
+        print(f"Total Certificates: {len(certificates)}")
+        
+        if not certificates:
+            print("\nNo certificates found for this student.")
+            return 0
+        
+        print()
+        for i, cert in enumerate(certificates, 1):
+            print("-" * 80)
+            print(f"Certificate #{i}")
+            print("-" * 80)
+            print(f"  Certificate ID:    {cert.certificate_id}")
+            print(f"  Course Title:      {cert.course_title}")
+            print(f"  Course Link:       {cert.course_link or '-'}")
+            print(f"  Completion Date:   {cert.completion_date}")
+            print(f"  Certificate Date:  {_format_value(cert.created_at)}")
+            print(f"  Duration (hours):  {cert.duration_hours}")
+            print(f"  Attendance %:      {cert.attendance_percentage}%")
+            print(f"  Assignment Comp %: {cert.assignment_completion_percentage}%")
+            print(f"  Course Level:      {cert.course_level or '-'}")
+            print(f"  Course Format:     {cert.course_format or '-'}")
+            print(f"  Language:          {cert.instruction_language or '-'}")
+            print(f"  Issuer:            {cert.issuer}")
+            print(f"  Instructor:        {cert.instructor}")
+            print(f"  Status:            {getattr(cert, 'status', 'valid')}")
+            print()
+        
+        print("=" * 80)
         return 0
     except Exception as exc:
         print("Error while looking up student:")

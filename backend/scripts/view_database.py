@@ -1,6 +1,6 @@
 import os
 import sys
-from datetime import datetime, timezone
+from datetime import datetime, timezone, date
 
 try:
 	from dotenv import load_dotenv
@@ -31,18 +31,16 @@ from app.database import SessionLocal
 from app.models import Certificate
 
 
-def _format_dt(dt: datetime) -> str:
+def _format_dt(dt) -> str:
 	if not dt:
 		return "-"
-	# ensure timezone-aware
-	if dt.tzinfo is None:
-		dt = dt.replace(tzinfo=timezone.utc)
-	# convert to local timezone for display
-	try:
-		local = dt.astimezone()
-	except Exception:
-		local = dt
-	return local.strftime("%d.%m.%Y, %H:%M %Z")
+	# date-only values
+	if isinstance(dt, date) and not isinstance(dt, datetime):
+		return dt.strftime("%Y.%m.%d")
+	# for datetimes, extract just the date part (no time)
+	if isinstance(dt, datetime):
+		return dt.date().strftime("%Y.%m.%d")
+	return str(dt)
 
 
 def view_database(limit: int = 50):
@@ -50,6 +48,9 @@ def view_database(limit: int = 50):
 	database.ensure_certificate_schema()
 	db: Session = SessionLocal()
 	try:
+		# Get total count
+		total_count = db.query(Certificate).count()
+		
 		certificates = (
 			db.query(Certificate)
 			.order_by(Certificate.created_at.desc())
@@ -61,10 +62,15 @@ def view_database(limit: int = 50):
 			print("No certificates found in the database.")
 			return
 
-		print(f"\nShowing up to {limit} certificates:\n")
+		print("=" * 80)
+		print(f"TOTAL CERTIFICATES IN DATABASE: {total_count}")
+		print(f"Showing: {len(certificates)}" + (f" (limited to {limit})" if total_count > limit else ""))
+		print("=" * 80)
+		print()
 
-		for cert in certificates:
-			print("=" * 50)
+		for idx, cert in enumerate(certificates, 1):
+			print(f"Certificate #{idx}")
+			print("-" * 80)
 			print(f"Certificate ID : {cert.certificate_id}")
 			print(f"Student ID     : {cert.student_id}")
 			print(f"Student Name   : {cert.student_name}")
@@ -76,7 +82,9 @@ def view_database(limit: int = 50):
 			print(f"Course Link    : {cert.course_link or '-'}")
 			print(f"Status         : {getattr(cert, 'status', 'valid')}")
 			print(f"Created At     : {_format_dt(cert.created_at)}")
-			print("=" * 50)
+			print()
+		
+		print("=" * 80)
 
 	except Exception as e:
 		print("Error while fetching data:")

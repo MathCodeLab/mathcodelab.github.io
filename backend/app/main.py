@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException, Depends, Header
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
-from datetime import datetime
+from datetime import datetime, date
 from . import models, schemas, crud, database, security
 import os
 
@@ -67,6 +67,13 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
 
     student = getattr(cert, "student", None)
 
+    def _format_ts(val):
+        if val is None:
+            return None
+        if isinstance(val, (datetime, date)):
+            return val.isoformat()
+        return str(val)
+
     return {
         "status": "valid",
         "certificate_id": cert.certificate_id,
@@ -83,10 +90,7 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
         "course_level": cert.course_level,
         "course_format": cert.course_format,
         "instruction_language": cert.instruction_language,
-        "certificate_created_at": cert.created_at,
-        "certificate_updated_at": cert.updated_at,
-        "student_created_at": getattr(student, "created_at", None) if student else None,
-        "student_updated_at": getattr(student, "updated_at", None) if student else None,
+        "certificate_created_at": _format_ts(cert.created_at),
         "verified_at": datetime.utcnow().isoformat() + "Z",
         "verification_url": f"https://mathcodelab.de/verify/?id={cert.certificate_id}"
     }
@@ -107,6 +111,13 @@ def list_certificates(
     api_key: str = Depends(security.verify_api_key)
 ):
     certs = db.query(models.Certificate).all()
+    def _format_ts(val):
+        if val is None:
+            return None
+        if isinstance(val, (datetime, date)):
+            return val.isoformat()
+        return str(val)
+
     return [
         {
             "certificate_id": cert.certificate_id,
@@ -123,8 +134,7 @@ def list_certificates(
             "instruction_language": cert.instruction_language,
             "issuer": cert.issuer,
             "instructor": cert.instructor,
-            "created_at": cert.created_at,
-            "updated_at": cert.updated_at,
+            "created_at": _format_ts(cert.created_at),
         }
         for cert in certs
     ]
@@ -147,12 +157,17 @@ def get_student_by_student_id(
         .all()
     )
 
+    def _format_ts(val):
+        if val is None:
+            return None
+        if isinstance(val, (datetime, date)):
+            return val.isoformat()
+        return str(val)
+
     return {
         "student": {
             "student_id": student.student_id,
             "student_name": student.student_name,
-            "created_at": student.created_at,
-            "updated_at": student.updated_at,
         },
         "certificates": certificates,
     }

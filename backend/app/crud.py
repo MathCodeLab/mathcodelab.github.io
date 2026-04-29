@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
-from datetime import datetime
+from datetime import datetime, date
 import random, string
 
 def generate_certificate_id(year: int) -> str:
@@ -47,6 +47,7 @@ def create_certificate(db: Session, cert_in: schemas.CertificateCreate):
         course_title=cert_in.course_title,
         completion_date=cert_in.completion_date,
         duration_hours=cert_in.duration_hours,
+        created_at=_parse_created_at(cert_in.created_at),
         attendance_percentage=cert_in.attendance_percentage,
         assignment_completion_percentage=cert_in.assignment_completion_percentage,
         course_level=cert_in.course_level,
@@ -61,6 +62,19 @@ def create_certificate(db: Session, cert_in: schemas.CertificateCreate):
     db.commit()
     db.refresh(cert)
     return cert
+
+
+def _parse_created_at(value: str | None):
+    """Parse a YYYY-MM-DD string and return a date object.
+
+    The system stores only the date (year-month-day). Return a
+    `datetime.date` instance or None.
+    """
+    if not value:
+        return None
+
+    parsed = datetime.strptime(value, "%Y-%m-%d")
+    return date(parsed.year, parsed.month, parsed.day)
 
 def revoke_certificate(db: Session, certificate_id: str, reason: str = None):
     cert = get_certificate_by_public_id(db, certificate_id)

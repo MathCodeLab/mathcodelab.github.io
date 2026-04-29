@@ -52,12 +52,15 @@ def ensure_certificate_schema(bind=None):
     if "student_name" not in student_columns:
         missing_statements.append("ALTER TABLE students ADD COLUMN student_name VARCHAR")
     if "created_at" not in student_columns:
-        missing_statements.append("ALTER TABLE students ADD COLUMN created_at TIMESTAMP")
+        missing_statements.append("ALTER TABLE students ADD COLUMN created_at DATE")
     if "updated_at" not in student_columns:
         missing_statements.append("ALTER TABLE students ADD COLUMN updated_at TIMESTAMP")
 
     if "student_id" not in existing_columns:
         missing_statements.append("ALTER TABLE certificates ADD COLUMN student_id VARCHAR")
+
+    if "created_at" not in existing_columns:
+        missing_statements.append("ALTER TABLE certificates ADD COLUMN created_at DATE")
 
     if "attendance_percentage" not in existing_columns:
         missing_statements.append("ALTER TABLE certificates ADD COLUMN attendance_percentage INTEGER")
