@@ -17,12 +17,17 @@
     li.className = 'navbar-item';
 
     const a = document.createElement('a');
-    a.href = 'verify/index.html';
+    // use root-relative path so the link works from any page
+    a.href = '/verify/index.html';
 
     const btn = document.createElement('button');
     btn.className = 'navbar-link';
     btn.setAttribute('data-nav-link', '');
     btn.textContent = 'Zertifikat prüfen';
+
+    if (window.location.pathname.includes('/verify/')) {
+      btn.classList.add('active');
+    }
 
     a.appendChild(btn);
     li.appendChild(a);

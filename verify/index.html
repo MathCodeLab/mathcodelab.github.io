@@ -2,29 +2,173 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Certificate Verification | MathCodeLab</title>
-  <link rel="stylesheet" href="verify.css">
+  <title>Zertifikat prüfen | MathCodeLab</title>
+  <link rel="shortcut icon" href="../assets/images/code-svgrepo-com.svg" type="image/x-icon">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>Certificate Verification</h1>
-      <p>Verify a MathCodeLab Certificate of Completion or Participation</p>
-    </header>
-    <main id="main-content">
-      <div id="loading" class="hidden">Loading...</div>
-      <form id="search-form" class="hidden">
-        <label for="certificate-id">Enter Certificate ID:</label>
-        <input type="text" id="certificate-id" name="certificate-id" maxlength="20" required pattern="MCL-\d{4}-[A-Z0-9]{6,8}">
-        <button type="submit">Verify</button>
-      </form>
-      <div id="result"></div>
-    </main>
-    <footer>
-      <p>&copy; <span id="year"></span> MathCodeLab</p>
-    </footer>
-  </div>
+
+  <main>
+
+    <aside class="sidebar" data-sidebar>
+
+      <div class="sidebar-info">
+
+        <figure class="avatar-box">
+          <img src="../assets/images/website.svg" alt="MathCodeLab" width="80">
+        </figure>
+
+        <div class="info-content">
+          <h1 class="name" title="MathCodeLab">MathCodeLab</h1>
+          <p class="title">Zertifikatsprüfung</p>
+        </div>
+
+        <button class="info_more-btn" data-sidebar-btn>
+          <span>Kontaktdaten</span>
+          <ion-icon name="chevron-down"></ion-icon>
+        </button>
+
+      </div>
+
+      <div class="sidebar-info_more">
+
+        <div class="separator"></div>
+
+        <ul class="contacts-list">
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="mail-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Email</p>
+              <a href="mailto:info@mathcodelab.de" class="contact-link">info@mathcodelab.de</a>
+            </div>
+
+          </li>
+
+          <li class="contact-item">
+
+            <div class="icon-box">
+              <ion-icon name="phone-portrait-outline"></ion-icon>
+            </div>
+
+            <div class="contact-info">
+              <p class="contact-title">Phone</p>
+              <a href="tel:+4917661942616" class="contact-link">+49 176 61942616</a>
+            </div>
+
+          </li>
+
+        </ul>
+
+        <div class="separator"></div>
+
+        <ul class="social-list">
+          <li class="social-item">
+            <a target="_blank" rel="noopener noreferrer" href="https://www.linkedin.com/company/math-code-lab" class="social-link">
+              <i class="fa-brands fa-linkedin"></i>
+            </a>
+          </li>
+          <li class="social-item">
+            <a target="_blank" rel="noopener noreferrer" href="https://instagram.com/mathcodelab" class="social-link">
+              <i class="fa-brands fa-instagram"></i>
+            </a>
+          </li>
+          <li class="social-item">
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/orabe" class="social-link">
+              <i class="fa-brands fa-github"></i>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+
+    </aside>
+
+    <div class="main-content">
+
+      <nav class="navbar">
+
+        <ul class="navbar-list">
+
+          <li class="navbar-item">
+            <a href="../index.html">
+              <button class="navbar-link" data-nav-link>Über uns</button>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="../laufende_kurse.html">
+              <button class="navbar-link" data-nav-link>Laufende Kurse</button>
+            </a>
+          </li>
+
+          <li class="navbar-item">
+            <a href="../vergangene_kurse.html">
+              <button class="navbar-link" data-nav-link>Vergangene Kurse</button>
+            </a>
+          </li>
+
+        </ul>
+
+      </nav>
+
+      <article class="verify-certificate active" data-page="Zertifikat prüfen">
+
+        <header>
+          <h2 class="h2 article-title">Zertifikat prüfen</h2>
+        </header>
+
+        <section class="service">
+          <div class="verify-card content-card">
+            <p class="verify-description">Teilnehmer und Arbeitgeber können die Echtheit eines Zertifikats in Sekundenschnelle anhand der Zertifikat‑ID prüfen.</p>
+
+              <div id="main-content" class="verify-content">
+              <div id="loading" class="verify-state hidden"></div>
+              <form id="search-form" class="verify-form hidden" novalidate>
+                <!-- <label for="certificate-id">Zertifikat‑ID eingeben:</label> -->
+                <div class="verify-input-row">
+                  <input
+                    type="text"
+                    id="certificate-id"
+                    name="certificate-id"
+                    maxlength="20"
+                    required
+                    pattern="MCL-\d{4}-[A-Z0-9]{6,8}"
+                    placeholder="MCL-JJJJ-XXXXXXX z. B. MCL-2026-GLMMEO7"
+                    autocomplete="off"
+                    spellcheck="false"
+                  >
+                  <button type="button" id="verify-check" class="verify-check">Prüfen</button>
+                </div>
+              </form>
+              <div id="result" class="verify-result"></div>
+            </div>
+
+            <footer class="verify-footer">
+              <p>&copy; 2026 MathCodeLab</p>
+            </footer>
+          </div>
+        </section>
+
+      </article>
+
+    </div>
+
+  </main>
+
+  <script src="../assets/js/script.js"></script>
+  <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+  <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
   <script src="verify.js"></script>
 </body>
 </html>
