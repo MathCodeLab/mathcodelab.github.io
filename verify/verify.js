@@ -118,6 +118,7 @@
             <p class="verify-result-description">Dieses Zertifikat wurde erfolgreich geprüft und als gültig bestätigt.</p>
           </div>
           <div class="verify-details-grid">
+            ${renderMeta('Student-ID', data.student_id || '-')}
             ${renderMeta('Teilnehmer', data.student_name || '-')}
             ${renderMeta('Kurs', data.course_title || '-')}
             ${renderMeta('Abschlussdatum', data.completion_date || '-')}

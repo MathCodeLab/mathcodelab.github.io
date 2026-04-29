@@ -1,11 +1,20 @@
-from sqlalchemy import Column, Integer, String, DateTime
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from .database import Base
+
+class Student(Base):
+    __tablename__ = "students"
+    student_id = Column(String, primary_key=True, index=True, nullable=False)
+    student_name = Column(String, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
 
 class Certificate(Base):
     __tablename__ = "certificates"
     id = Column(Integer, primary_key=True, index=True)
     certificate_id = Column(String, unique=True, index=True, nullable=False)
+    student_id = Column(String, ForeignKey("students.student_id"), index=True, nullable=False)
     student_name = Column(String, nullable=False)
     course_title = Column(String, nullable=False)
     completion_date = Column(String, nullable=False)
@@ -19,6 +28,7 @@ class Certificate(Base):
     
     issuer = Column(String, default="MathCodeLab", nullable=False)
     instructor = Column(String, default="Mohammad Orabe", nullable=False)
+    student = relationship("Student")
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now(), server_default=func.now())
     

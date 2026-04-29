@@ -1,7 +1,12 @@
 import sys
 import os
 from datetime import datetime
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+from dotenv import load_dotenv
+
+PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+sys.path.append(PROJECT_ROOT)
+
 from app import database, models, crud, schemas
 from sqlalchemy.orm import Session
 
@@ -39,6 +44,7 @@ def main():
     db = next(database.get_db())
     print("Enter certificate details:")
     
+    student_id = input("Student ID (primary key, e.g. STU-2026-001): ").strip()
     student_name = input("Student name: ")
     course_title = input("Course title: ")
     completion_date = prompt_date("Completion date (YYYY-MM-DD): ")
@@ -50,6 +56,7 @@ def main():
     instruction_language = input("Instruction language (e.g. English, German, Arabic): ") 
     course_link = input("Course link (optional, e.g. https://...): ").strip() or None
     cert_in = schemas.CertificateCreate(
+        student_id=student_id,
         student_name=student_name,
         course_title=course_title,
         completion_date=completion_date,
@@ -58,8 +65,7 @@ def main():
         assignment_completion_percentage=assignment_completion_percentage,
         course_level=course_level,
         course_format=course_format,
-        instruction_language=instruction_language
-        ,
+        instruction_language=instruction_language,
         course_link=course_link
     )
     cert = crud.create_certificate(db, cert_in)

@@ -68,6 +68,7 @@ def verify_certificate(certificate_id: str, db: Session = Depends(get_db)):
     return {
         "status": "valid",
         "certificate_id": cert.certificate_id,
+        "student_id": cert.student_id,
         "student_name": cert.student_name,
         "course_title": cert.course_title,
         "course_link": cert.course_link,
@@ -95,20 +96,69 @@ def list_certificates(
     api_key: str = Depends(security.verify_api_key)
 ):
     certs = db.query(models.Certificate).all()
-    return certs
+    return [
+        {
+            "certificate_id": cert.certificate_id,
+            "student_id": cert.student_id,
+            "student_name": cert.student_name,
+            "course_title": cert.course_title,
+            "course_link": cert.course_link,
+            "completion_date": cert.completion_date,
+            "duration_hours": cert.duration_hours,
+            "attendance_percentage": cert.attendance_percentage,
+            "assignment_completion_percentage": cert.assignment_completion_percentage,
+            "course_level": cert.course_level,
+            "course_format": cert.course_format,
+            "instruction_language": cert.instruction_language,
+            "issuer": cert.issuer,
+            "instructor": cert.instructor,
+            "created_at": cert.created_at,
+            "updated_at": cert.updated_at,
+        }
+        for cert in certs
+    ]
 
 
-@app.delete("/admin/certificates/{certificate_id}", response_model=schemas.CertificateDeleteResponse)
-def delete_certificate(
-    certificate_id: str,
+@app.get("/admin/students/{student_id}", response_model=schemas.StudentLookupResponse)
+def get_student_by_student_id(
+    student_id: str,
     db: Session = Depends(get_db),
     api_key: str = Depends(security.verify_api_key)
 ):
-    cert = crud.delete_certificate(db, certificate_id)
-    if not cert:
-        raise HTTPException(status_code=404, detail="Certificate not found")
+    student = crud.get_student_by_id(db, student_id)
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+
+    certificates = (
+        db.query(models.Certificate)
+        .filter(models.Certificate.student_id == student_id)
+        .order_by(models.Certificate.created_at.desc())
+        .all()
+    )
 
     return {
-        "message": "Certificate deleted",
-        "certificate_id": certificate_id,
+        "student": {
+            "student_id": student.student_id,
+            "student_name": student.student_name,
+            "created_at": student.created_at,
+            "updated_at": student.updated_at,
+        },
+        "certificates": certificates,
+    }
+
+
+@app.delete("/admin/certificates/student/{student_id}", response_model=schemas.CertificateDeleteResponse)
+def delete_certificates_for_student(
+    student_id: str,
+    db: Session = Depends(get_db),
+    api_key: str = Depends(security.verify_api_key)
+):
+    deleted_count = crud.delete_certificates_by_student_id(db, student_id)
+    if deleted_count == 0:
+        raise HTTPException(status_code=404, detail="No certificates found for student")
+
+    return {
+        "message": "Certificates deleted for student",
+        "student_id": student_id,
+        "deleted_count": deleted_count,
     }

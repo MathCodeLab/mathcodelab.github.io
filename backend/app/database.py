@@ -26,7 +26,7 @@ Base = declarative_base()
 
 
 def ensure_certificate_schema(bind=None):
-    """Create the certificates table and add any missing columns.
+    """Create the student and certificates tables and add any missing columns.
 
     This keeps older PostgreSQL/SQLite databases compatible when the
     certificate model gains new optional fields.
@@ -37,11 +37,27 @@ def ensure_certificate_schema(bind=None):
     Base.metadata.create_all(bind=target)
 
     inspector = inspect(target)
+    if "students" not in inspector.get_table_names():
+        return
+
     if "certificates" not in inspector.get_table_names():
         return
 
+    student_columns = {column["name"] for column in inspector.get_columns("students")}
     existing_columns = {column["name"] for column in inspector.get_columns("certificates")}
     missing_statements = []
+
+    if "student_id" not in student_columns:
+        missing_statements.append("ALTER TABLE students ADD COLUMN student_id VARCHAR")
+    if "student_name" not in student_columns:
+        missing_statements.append("ALTER TABLE students ADD COLUMN student_name VARCHAR")
+    if "created_at" not in student_columns:
+        missing_statements.append("ALTER TABLE students ADD COLUMN created_at TIMESTAMP")
+    if "updated_at" not in student_columns:
+        missing_statements.append("ALTER TABLE students ADD COLUMN updated_at TIMESTAMP")
+
+    if "student_id" not in existing_columns:
+        missing_statements.append("ALTER TABLE certificates ADD COLUMN student_id VARCHAR")
 
     if "attendance_percentage" not in existing_columns:
         missing_statements.append("ALTER TABLE certificates ADD COLUMN attendance_percentage INTEGER")

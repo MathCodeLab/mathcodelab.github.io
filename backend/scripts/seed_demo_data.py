@@ -9,6 +9,7 @@ def seed():
     db = next(database.get_db())
     # Valid certificate
     cert1 = schemas.CertificateCreate(
+        student_id="STU-2026-001",
         student_name="Alice Example",
         course_title="Python Programming Basics",
         completion_date="2026-04-20",
@@ -17,6 +18,7 @@ def seed():
     c1 = crud.create_certificate(db, cert1)
     # Another demo certificate
     cert2 = schemas.CertificateCreate(
+        student_id="STU-2026-002",
         student_name="Bob Example",
         course_title="Data Science Intro",
         completion_date="2026-03-15",

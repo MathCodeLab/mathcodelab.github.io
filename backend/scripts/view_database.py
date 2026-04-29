@@ -4,16 +4,18 @@ import sys
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+PROJECT_ROOT = os.path.dirname(os.path.dirname(__file__))
+load_dotenv(os.path.join(PROJECT_ROOT, ".env"))
+sys.path.append(PROJECT_ROOT)
 
+from app import database
 from app.database import SessionLocal
 from app.models import Certificate
 
 
-load_dotenv()
-
-
 def view_database(limit: int = 50):
+	# Ensure missing optional columns are added before selecting all model fields.
+	database.ensure_certificate_schema()
 	db: Session = SessionLocal()
 	try:
 		certificates = (
@@ -32,6 +34,7 @@ def view_database(limit: int = 50):
 		for cert in certificates:
 			print("=" * 50)
 			print(f"Certificate ID : {cert.certificate_id}")
+			print(f"Student ID     : {cert.student_id}")
 			print(f"Student Name   : {cert.student_name}")
 			print(f"Course Title   : {cert.course_title}")
 			print(f"Completion Date: {cert.completion_date}")

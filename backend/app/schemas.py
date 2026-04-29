@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import Optional
 
 class CertificateBase(BaseModel):
+    student_id: str
     student_name: str
     course_title: str
     completion_date: str
@@ -22,12 +23,24 @@ class CertificateOut(CertificateBase):
     certificate_id: str
     class Config:
         from_attributes = True
-    course_link: Optional[str] = None
+
+
+class StudentOut(BaseModel):
+    student_id: str
+    student_name: str
+    created_at: Optional[str] = None
+    updated_at: Optional[str] = None
+
+
+class StudentLookupResponse(BaseModel):
+    student: StudentOut
+    certificates: list[CertificateOut]
 
 class CertificateVerificationResponse(BaseModel):
     status: str
     certificate_id: str
     verification_url: Optional[str] = None
+    student_id: Optional[str] = None
     student_name: Optional[str] = None
     course_title: Optional[str] = None
     course_link: Optional[str] = None
@@ -46,6 +59,7 @@ class CertificateVerificationResponse(BaseModel):
 
 class CertificateDeleteResponse(BaseModel):
     message: str
-    certificate_id: str
+    student_id: str
+    deleted_count: int
     
 # Revocation support removed: no revoke schema
