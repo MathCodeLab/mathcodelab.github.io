@@ -15,6 +15,12 @@ class Certificate(Base):
     course_title = Column(String, nullable=False)
     completion_date = Column(String, nullable=False)
     duration_hours = Column(Integer, nullable=False)
+    attendance_percentage = Column(Integer, nullable=True)
+    assignment_completion_percentage = Column(Integer, nullable=True)
+    course_level = Column(String, nullable=True)
+    course_format = Column(String, nullable=True)
+    instruction_language = Column(String, nullable=True)
+    
     issuer = Column(String, default="MathCodeLab", nullable=False)
     instructor = Column(String, default="Mohammad Orabe", nullable=False)
     status = Column(Enum(CertificateStatus), default=CertificateStatus.valid, nullable=False)

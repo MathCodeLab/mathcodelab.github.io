@@ -1,5 +1,5 @@
 import os
-from fastapi import Header, HTTPException, status, Depends
+from fastapi import Header, HTTPException, status
 
 def verify_api_key(authorization: str = Header(...)):
     api_key = os.getenv("ADMIN_API_KEY")

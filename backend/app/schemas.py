@@ -32,6 +32,11 @@ class CertificateVerificationResponse(BaseModel):
     verified_at: Optional[str] = None
     revocation_reason: Optional[str] = None
     message: Optional[str] = None
-
+    attendance_percentage: Optional[int] = None
+    assignment_completion_percentage: Optional[int] = None
+    course_level: Optional[str] = None
+    course_format: Optional[str] = None
+    instruction_language: Optional[str] = None
+    
 class CertificateRevoke(BaseModel):
     revocation_reason: Optional[str] = None

@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from starlette.responses import JSONResponse
 from datetime import datetime
 from . import models, schemas, crud, database, security
+from fastapi import Request
 
 app = FastAPI(title="MathCodeLab Certificate Verification API")
 models.Base.metadata.create_all(bind=database.engine)
@@ -18,6 +19,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+@app.middleware("http")
+async def protect_docs(request: Request, call_next):
+    if request.url.path.startswith("/docs") or request.url.path.startswith("/openapi"):
+        auth = request.headers.get("authorization")
+        if auth != f"Bearer {os.getenv('ADMIN_API_KEY')}":
+            return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+    return await call_next(request)
 
 @app.get("/")
 def root():
@@ -83,3 +92,11 @@ def revoke_certificate(
     if not cert:
         raise HTTPException(status_code=404, detail="Certificate not found")
     return cert
+
+@app.get("/admin/certificates")
+def list_certificates(
+    db: Session = Depends(get_db),
+    api_key: str = Depends(security.verify_api_key)
+):
+    certs = db.query(models.Certificate).all()
+    return certs
