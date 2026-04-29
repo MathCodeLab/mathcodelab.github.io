@@ -7,6 +7,7 @@ from datetime import datetime
 from . import models, schemas, crud, database, security
 
 app = FastAPI(title="MathCodeLab Certificate Verification API")
+models.Base.metadata.create_all(bind=database.engine)
 
 # CORS
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
@@ -24,6 +25,7 @@ def root():
         "service": "MathCodeLab Certificate Verification API",
         "status": "running",
         "health": "/health",
+        "verify": "/verify/{certificate_id}",
         "docs": "/docs"
     }
     
