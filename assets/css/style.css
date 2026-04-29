@@ -375,6 +375,132 @@ article.active {
   animation: verify-pop 260ms ease-out both;
 }
 
+.verify-result-card {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(16, 81, 50, 0.12);
+  box-shadow: 0 18px 40px rgba(15, 81, 50, 0.08);
+}
+
+.verify-result-success {
+  background: linear-gradient(180deg, rgba(39, 104, 237, 0.14), rgba(255, 255, 255, 0.2));
+  border-color: rgba(39, 104, 237, 0.18);
+}
+
+.verify-result-revoked {
+  background: linear-gradient(180deg, rgba(102, 63, 3, 0.12), rgba(255, 255, 255, 0.18));
+  border-color: rgba(102, 63, 3, 0.16);
+}
+
+.verify-result-invalid {
+  background: linear-gradient(180deg, rgba(184, 12, 0, 0.12), rgba(255, 255, 255, 0.18));
+  border-color: rgba(184, 12, 0, 0.16);
+}
+
+.verify-result-header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.verify-result-badge {
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: var(--fs-8);
+  font-weight: var(--fw-600);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--white-2);
+  background: rgba(39, 104, 237, 0.18);
+  border: 1px solid rgba(39, 104, 237, 0.22);
+}
+
+.verify-result-header.success .verify-result-badge {
+  background: rgba(24, 128, 72, 0.16);
+  border-color: rgba(24, 128, 72, 0.22);
+}
+
+.verify-result-header.warning .verify-result-badge {
+  background: rgba(160, 107, 0, 0.16);
+  border-color: rgba(160, 107, 0, 0.22);
+}
+
+.verify-result-header.danger .verify-result-badge {
+  background: rgba(184, 12, 0, 0.16);
+  border-color: rgba(184, 12, 0, 0.22);
+}
+
+.verify-result-title {
+  font-size: var(--fs-2);
+  font-weight: var(--fw-600);
+  color: var(--white-2);
+  line-height: 1.2;
+}
+
+.verify-result-description {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  line-height: 1.6;
+}
+
+.verify-details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.verify-meta-item {
+  padding: 12px 14px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.36);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.verify-meta-label {
+  display: block;
+  margin-bottom: 4px;
+  font-size: var(--fs-8);
+  color: var(--light-gray-70);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.verify-meta-value {
+  font-size: var(--fs-6);
+  color: var(--white-2);
+  font-weight: var(--fw-500);
+  word-break: break-word;
+}
+
+.verify-note {
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  font-size: var(--fs-6);
+  line-height: 1.6;
+  color: var(--light-gray);
+}
+
+.verify-note-warn {
+  background: rgba(184, 12, 0, 0.08);
+  border-color: rgba(184, 12, 0, 0.12);
+}
+
+.verify-result-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
 .verify-status.verified,
 .verify-status.revoked {
   animation: verify-pop 320ms ease-out both, verify-glow 900ms ease-out 1;
@@ -465,7 +591,7 @@ article.active {
 }
 
 .verify-contact {
-  margin-top: 10px;
+  margin: 0;
   color: var(--light-gray);
   font-size: var(--fs-8);
 }
@@ -474,9 +600,13 @@ article.active {
 
 /* Suggestions and action button */
 .verify-suggestion {
-  margin-top: 8px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  margin: 0;
   color: var(--light-gray);
   font-size: var(--fs-8);
+  background: rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .verify-action-btn {
@@ -494,6 +624,20 @@ article.active {
   background: var(--orange-yellow-crayola);
   color: white;
   border-color: rgba(0,0,0,0.08);
+}
+
+@media (max-width: 767px) {
+  .verify-details-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .verify-result-card {
+    padding: 16px;
+  }
+
+  .verify-result-title {
+    font-size: var(--fs-3);
+  }
 }
 
 
@@ -2230,18 +2374,6 @@ textarea.form-input::-webkit-resizer {
   /**
      * CUSTOM PROPERTY
      */
-
-  :root {
-
-    /**
-      * shadow
-      */
-
-    /* --shadow-1: -4px 8px 24px hsla(0, 0%, 0%, 0.125);
-    --shadow-2: 0 16px 30px hsla(0, 0%, 0%, 0.125);
-    --shadow-3: 0 16px 40px hsla(0, 0%, 0%, 0.125); */
-
-  }
 
 
 

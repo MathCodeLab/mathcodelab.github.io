@@ -6,6 +6,11 @@ class CertificateBase(BaseModel):
     course_title: str
     completion_date: str
     duration_hours: int
+    attendance_percentage: Optional[int] = None
+    assignment_completion_percentage: Optional[int] = None
+    course_level: Optional[str] = None
+    course_format: Optional[str] = None
+    instruction_language: Optional[str] = None
     issuer: Optional[str] = "MathCodeLab"
     instructor: Optional[str] = "Mohammad Orabe"
 

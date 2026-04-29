@@ -9,6 +9,16 @@ import os
 
 ENABLE_DOCS = os.getenv("ENABLE_DOCS", "false").lower() == "true"
 
+# How to access docs when needed:
+# ENABLE_DOCS=true uvicorn app.main:app --reload
+# http://127.0.0.1:8000/docs
+# Temporary in production (optional):
+# ENABLE_DOCS=true
+# Then:
+# * Redeploy
+# * Use /docs
+# * Then set back to false
+
 app = FastAPI(
     title="MathCodeLab Certificate Verification API",
     docs_url="/docs" if ENABLE_DOCS else None,
@@ -16,7 +26,7 @@ app = FastAPI(
     openapi_url="/openapi.json" if ENABLE_DOCS else None,
 )
 
-models.Base.metadata.create_all(bind=database.engine)
+database.ensure_certificate_schema()
 
 # CORS
 ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS", "*").split(",")
