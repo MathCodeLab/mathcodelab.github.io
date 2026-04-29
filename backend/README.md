@@ -25,6 +25,7 @@ backend/
     security.py
   scripts/
     create_certificate.py
+    remove_certificate.py
     seed_demo_data.py
   requirements.txt
   README.md
@@ -58,10 +59,19 @@ backend/
 - `GET /health` — API health check
 - `GET /verify/{certificate_id}` — Verify a certificate
 - `POST /admin/certificates` — Create a certificate (admin, API key required)
-- `DELETE /admin/certificates/{certificate_id}` — Delete a certificate (admin, API key required)
+- `GET /admin/students/{student_id}` — Look up a student and their certificates (admin, API key required)
+- `DELETE /admin/certificates/student/{student_id}` — Delete all certificates for a student (admin, API key required)
 
 ## Issuing a Certificate
 - Use the admin API or run `python scripts/create_certificate.py` interactively.
+- The script now asks for a `student_id` primary key and the student name.
+
+## Removing a Certificate
+- Run `python scripts/remove_certificate.py S12345`
+
+## Looking Up a Student
+- Run `python scripts/view_student.py S12345`
+- Or call the admin API: `GET /admin/students/{student_id}`
 
 ## Revocation
 Revocation support has been removed from this codebase. Certificates cannot be revoked via the API.
@@ -86,6 +96,7 @@ Revocation support has been removed from this codebase. Certificates cannot be r
 
 ## Certificate PDF Integration
 - Each certificate should display:
+  - Student ID
   - Certificate ID (e.g. MCL-2026-XXXXXX)
   - Verification URL: `https://mathcodelab.de/verify/?id={certificate_id}`
   - (Optional) QR code to the same URL
