@@ -18,6 +18,15 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+@app.get("/")
+def root():
+    return {
+        "service": "MathCodeLab Certificate Verification API",
+        "status": "running",
+        "health": "/health",
+        "docs": "/docs"
+    }
+    
 # Dependency
 get_db = database.get_db
 
