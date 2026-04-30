@@ -108,8 +108,23 @@
       }
     }
 
+    function formatDate(iso) {
+      // expect ISO date (YYYY-MM-DD) or ISO datetime; return DD.MM.YYYY
+      try {
+        const d = new Date(iso);
+        const dd = String(d.getUTCDate()).padStart(2, '0');
+        const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+        const yyyy = d.getUTCFullYear();
+        return `${dd}.${mm}.${yyyy}`;
+      } catch (e) {
+        return iso;
+      }
+    }
+
     if (data.status === 'valid') {
-      const verifiedAt = data.verified_at ? formatDateTime(data.verified_at) : '';
+      // prefer certificate creation date; fallback to verified_at when missing
+      const creation = data.certificate_created_at || data.created_at || null;
+      const createdAtStr = creation ? formatDate(creation) : (data.verified_at ? formatDateTime(data.verified_at) : '');
       return `
         <div class="verify-result-card verify-result-success">
           <div class="verify-result-header success">
@@ -118,15 +133,20 @@
             <p class="verify-result-description">Dieses Zertifikat wurde erfolgreich geprüft und als gültig bestätigt.</p>
           </div>
           <div class="verify-details-grid">
-            ${renderMeta('Student-ID', data.student_id || '-')}
             ${renderMeta('Teilnehmer', data.student_name || '-')}
             ${renderMeta('Kurs', data.course_title || '-')}
             ${renderMeta('Abschlussdatum', data.completion_date || '-')}
             ${renderMeta('Dauer', (data.duration_hours != null) ? `${data.duration_hours} Unterrichtsstunden` : '-')}
+            ${renderMeta('Anwesenheit', (data.attendance_percentage != null) ? `${data.attendance_percentage}%` : '-')}
+            ${renderMeta('Aufgabenabschluss', (data.assignment_completion_percentage != null) ? `${data.assignment_completion_percentage}%` : '-')}
+            ${renderMeta('Kurslevel', data.course_level || '-')}
+            ${renderMeta('Format', data.course_format || '-')}
+            ${renderMeta('Sprache', data.instruction_language || '-')}
+            ${data.course_link ? `<div class="verify-meta-item"><span class="verify-meta-label">Kurslink</span><span class="verify-meta-value"><a href="${escapeHtml(data.course_link)}" target="_blank" rel="noreferrer">${escapeHtml(data.course_link)}</a></span></div>` : ''}
             ${renderMeta('Herausgeber', data.issuer || 'MathCodeLab')}
             ${renderMeta('Dozent', data.instructor || 'Mohammad Orabe')}
             ${renderMeta('Zertifikat-ID', data.certificate_id)}
-            ${verifiedAt ? renderMeta('Verifiziert am', verifiedAt) : ''}
+            ${createdAtStr ? renderMeta('Erstellt am', createdAtStr) : ''}
           </div>
           <div class="verify-note">Hinweis:\nDieses Zertifikat bestätigt die erfolgreiche Teilnahme bzw. den Abschluss eines von MathCodeLab durchgeführten Kurses. Es stellt keinen akademischen Abschluss dar und beinhaltet keine Vergabe von Leistungspunkten (ECTS). Eine mögliche Anerkennung durch Dritten erfolgt ausschließlich im Ermessen der jeweiligen Institution.<br>Weitere Informationen sind unter <a href="https://mathcodelab.de" target="_blank" rel="noreferrer">https://mathcodelab.de</a> verfügbar.</div>
           <div class="verify-result-footer">${renderContactLine()}</div>
