@@ -129,7 +129,18 @@
         <div class="verify-result-card verify-result-success">
           <div class="verify-result-header success">
             <span class="verify-result-badge">Verifiziert</span>
-            <h3 class="verify-result-title">Verifiziertes Zertifikat</h3>
+            <div class="verify-identity">
+              <svg class="verify-identity-icon" width="48" height="48" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
+                <!-- person: head -->
+                <circle cx="28" cy="20" r="6" fill="#ffffff" />
+                <!-- person: shoulders/body -->
+                <path d="M14 46c0-8 8-14 14-14s14 6 14 14" fill="#ffffff" />
+                <!-- check badge -->
+                <circle cx="48" cy="44" r="12" fill="#16a34a" />
+                <path d="M44 44l3 3 6-6" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+              <h3 class="verify-result-title">Verifiziertes Zertifikat</h3>
+            </div>
             <p class="verify-result-description">Dieses Zertifikat wurde erfolgreich geprüft und als gültig bestätigt.</p>
           </div>
           <div class="verify-details-grid">

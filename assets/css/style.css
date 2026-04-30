@@ -404,6 +404,23 @@ article.active {
   gap: 8px;
 }
 
+/* Identity icon next to verified title */
+.verify-identity {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.verify-identity-icon {
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+  padding: 6px;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+
 .verify-result-badge {
   width: fit-content;
   padding: 5px 10px;
